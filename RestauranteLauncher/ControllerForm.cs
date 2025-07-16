@@ -27,7 +27,21 @@ namespace RestauranteLauncher
 
         public ControllerForm()
         {
-            projectPath = Path.GetDirectoryName(Application.ExecutablePath) ?? Environment.CurrentDirectory;
+            // Encontrar o diretório raiz do projeto (onde estão as pastas backend e frontend)
+            string currentDir = Path.GetDirectoryName(Application.ExecutablePath) ?? Environment.CurrentDirectory;
+            
+            // Se estivermos executando via dotnet run, subir até encontrar o diretório que contém backend e frontend
+            while (!string.IsNullOrEmpty(currentDir) && 
+                   (!Directory.Exists(Path.Combine(currentDir, "backend")) || 
+                    !Directory.Exists(Path.Combine(currentDir, "frontend"))))
+            {
+                string parentDir = Directory.GetParent(currentDir)?.FullName;
+                if (parentDir == null || parentDir == currentDir)
+                    break;
+                currentDir = parentDir;
+            }
+            
+            projectPath = currentDir;
             InitializeComponent();
             StartStatusMonitoring();
         }
