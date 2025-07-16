@@ -1,0 +1,12 @@
+# Keep the main executable
+!RestauranteLauncher.exe
+!RestauranteLauncher.deps.json
+!RestauranteLauncher.runtimeconfig.json
+
+# Ignore temporary files
+*.tmp
+*.log
+*.cache
+
+# Keep this directory structure
+!.gitignore

@@ -1,0 +1,39 @@
+{
+  "name": "FoodFlow Restaurant Management System",
+  "version": "1.0.0",
+  "description": "Complete restaurant management system with React frontend, Node.js backend, and C# desktop launcher",
+  "author": "Restaurant System Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/foodflow-restaurant-system.git"
+  },
+  "directories": {
+    "frontend": "./frontend",
+    "backend": "./backend",
+    "launcher_source": "./RestauranteLauncher",
+    "launcher_executable": "./RestauranteLauncher-exe",
+    "documentation": "./docs",
+    "scripts": "./scripts"
+  },
+  "ports": {
+    "frontend": 3000,
+    "backend": 5000
+  },
+  "database": {
+    "type": "SQLite",
+    "file": "./backend/dev.db",
+    "alternative": "MySQL (see docs/MYSQL_SETUP.md)"
+  },
+  "requirements": {
+    "node": ">=16.0.0",
+    "dotnet": ">=6.0",
+    "os": "Windows (for launcher)"
+  },
+  "scripts": {
+    "start": "run-launcher.bat",
+    "build_launcher": "scripts/build-launcher.ps1",
+    "start_manual": "scripts/start-app.ps1",
+    "stop": "scripts/stop-app.ps1"
+  }
+}

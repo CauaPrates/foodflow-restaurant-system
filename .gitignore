@@ -49,7 +49,11 @@ jspm_packages/
 # Large files
 *.exe
 *.pack
-Sistema-Restaurante-old.exe
+
+# Exception: Keep the launcher executable
+!RestauranteLauncher-exe/RestauranteLauncher.exe
+!RestauranteLauncher-exe/RestauranteLauncher.deps.json
+!RestauranteLauncher-exe/RestauranteLauncher.runtimeconfig.json
 
 # Build directories
 bin/

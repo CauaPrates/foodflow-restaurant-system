@@ -55,11 +55,14 @@ A complete restaurant management system with modern interface and advanced featu
 
 2. **Run the Desktop Launcher** (Recommended)
    ```bash
-   # Build the launcher
-   dotnet build RestauranteLauncher/RestauranteLauncher.csproj -c Release
+   # Option 1: Use the batch file (easiest)
+   run-launcher.bat
    
-   # Run the launcher
-   ./RestauranteLauncher/bin/Release/net6.0-windows/RestauranteLauncher.exe
+   # Option 2: Run directly
+   .\RestauranteLauncher-exe\RestauranteLauncher.exe
+   
+   # Option 3: Build and run (if needed)
+   .\scripts\build-launcher.ps1
    ```
 
 3. **Manual Installation** (Alternative)
@@ -82,10 +85,10 @@ A complete restaurant management system with modern interface and advanced featu
 ## 🎯 Usage
 
 ### Using Desktop Launcher (Recommended)
-1. Run `RestauranteLauncher.exe`
-2. Click **"▶️ START SYSTEM"**
-3. Wait for the system to initialize
-4. Access the web interface at `http://localhost:3000`
+1. Double-click `run-launcher.bat` or run `RestauranteLauncher.exe` directly from `RestauranteLauncher-exe` folder
+2. Click **"▶️ START SYSTEM"** in the launcher interface
+3. Wait for the system to initialize (backend and frontend will start automatically)
+4. The web interface will open automatically at `http://localhost:3000`
 
 ### Manual Startup
 1. **Start Backend Server**
@@ -127,18 +130,27 @@ foodflow-restaurant-system/
 │   │   ├── 📄 seed.ts         # Database seeding
 │   │   └── 📁 migrations/      # Database migrations
 │   └── 📄 package.json         # Backend dependencies
-├── 📁 RestauranteLauncher/      # C# desktop launcher
+├── 📁 RestauranteLauncher/      # C# desktop launcher source
 │   ├── 📄 ControllerForm.cs    # Main UI form
 │   ├── 📄 Program.cs          # Application entry point
 │   └── 📄 RestauranteLauncher.csproj
+├── 📁 RestauranteLauncher-exe/  # Compiled launcher executable
+│   ├── 📄 RestauranteLauncher.exe  # Main executable
+│   └── 📄 ...                 # Runtime dependencies
+├── 📁 docs/                     # Project documentation
+│   ├── 📄 LAUNCHER_README.md   # Launcher documentation
+│   └── 📄 MYSQL_SETUP.md       # MySQL setup guide
+├── 📁 scripts/                 # Automation scripts
+│   ├── 📄 build-launcher.ps1   # Launcher build script
+│   ├── 📄 start-app.ps1        # PowerShell start script
+│   └── 📄 stop-app.ps1         # PowerShell stop script
 ├── 📄 database_setup.sql       # Database initialization
-├── 📄 MYSQL_SETUP.md          # MySQL setup guide
-├── 📄 LAUNCHER_README.md      # Launcher documentation
-└── 📁 scripts/                 # Automation scripts
-    ├── 📄 start-app.ps1       # PowerShell start script
-    ├── 📄 stop-app.ps1        # PowerShell stop script
-    ├── 📄 build-launcher.ps1  # Launcher build script
-    └── 📄 build-and-run.bat   # Batch automation
+├── 📄 run-launcher.bat         # Quick launcher startup
+├── 📄 project.config.json      # Project configuration
+├── 📄 CHANGELOG.md            # Project changelog
+├── 📄 README.md               # Main project documentation
+├── 📄 LICENSE                 # Project license
+└── 📄 .gitignore              # Git ignore rules
 ```
 
 ## 🔧 Configuration
@@ -264,6 +276,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Node.js community for the robust backend platform
 - Prisma team for the excellent ORM
 - Microsoft for .NET and C# development tools
+
+## 📚 Documentation
+
+For detailed information about specific components:
+
+- **[Launcher Guide](docs/LAUNCHER_README.md)** - Complete launcher documentation
+- **[MySQL Setup](docs/MYSQL_SETUP.md)** - Database configuration guide
+- **[Changelog](CHANGELOG.md)** - Project history and updates
+- **[Project Config](project.config.json)** - System configuration reference
 
 ## 📞 Support
 
