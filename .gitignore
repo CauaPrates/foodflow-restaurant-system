@@ -41,6 +41,22 @@ build/Release
 node_modules/
 jspm_packages/
 
+# Cache directories
+.cache/
+**/.cache/
+**/node_modules/.cache/
+
+# Large files
+*.exe
+*.pack
+Sistema-Restaurante-old.exe
+
+# Build directories
+bin/
+obj/
+**/bin/
+**/obj/
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 
