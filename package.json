@@ -1,0 +1,21 @@
+{
+  "name": "sistema-restaurante",
+  "version": "1.0.0",
+  "description": "Sistema completo para gestão de restaurante",
+  "scripts": {
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm start",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "build": "cd frontend && npm run build"
+  },
+  "keywords": [
+    "restaurante",
+    "pedidos",
+    "estoque"
+  ],
+  "author": "FoodFlow",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.10.0"
+  }
+}
