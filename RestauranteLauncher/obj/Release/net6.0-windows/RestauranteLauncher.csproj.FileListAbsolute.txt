@@ -18,3 +18,8 @@ C:\Users\caual\Documents\Sistema Restaurante\RestauranteLauncher\obj\Release\net
 C:\Users\caual\Documents\Sistema Restaurante\RestauranteLauncher\obj\Release\net6.0-windows\RestauranteLauncher.pdb
 C:\Users\caual\Documents\Sistema Restaurante\RestauranteLauncher\obj\Release\net6.0-windows\RestauranteLauncher.genruntimeconfig.cache
 C:\Users\caual\Documents\Sistema Restaurante\RestauranteLauncher\obj\Release\net6.0-windows\ref\RestauranteLauncher.dll
+C:\Users\caual\Documents\Sistema Restaurante\RestauranteLauncher-exe\RestauranteLauncher.exe
+C:\Users\caual\Documents\Sistema Restaurante\RestauranteLauncher-exe\RestauranteLauncher.deps.json
+C:\Users\caual\Documents\Sistema Restaurante\RestauranteLauncher-exe\RestauranteLauncher.runtimeconfig.json
+C:\Users\caual\Documents\Sistema Restaurante\RestauranteLauncher-exe\RestauranteLauncher.dll
+C:\Users\caual\Documents\Sistema Restaurante\RestauranteLauncher-exe\RestauranteLauncher.pdb

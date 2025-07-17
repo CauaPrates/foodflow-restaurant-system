@@ -1,14 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "FLASe8hTCZiVYBOPBV2i6LG4586RsoyF+1qKsf0QrjBlVbsRvK06v9MMXYGzsql+uY5Mk3N3p1qUpBZ7yZ8a4g==",
+  "dgSpecHash": "oVZUBcf4tq60ubxxYM2+gJcIrehsVbj30ombjJwofRhdOT60BS616smCnpFwl0EDYVV/ntIKmG49DBr+YAW9DA==",
   "success": true,
   "projectFilePath": "C:\\Users\\caual\\Documents\\Sistema Restaurante\\RestauranteLauncher\\RestauranteLauncher.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\caual\\.nuget\\packages\\microsoft.win32.systemevents\\7.0.0\\microsoft.win32.systemevents.7.0.0.nupkg.sha512",
-    "C:\\Users\\caual\\.nuget\\packages\\system.drawing.common\\7.0.0\\system.drawing.common.7.0.0.nupkg.sha512",
-    "C:\\Users\\caual\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\6.0.36\\microsoft.netcore.app.runtime.win-x64.6.0.36.nupkg.sha512",
-    "C:\\Users\\caual\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\6.0.36\\microsoft.windowsdesktop.app.runtime.win-x64.6.0.36.nupkg.sha512",
-    "C:\\Users\\caual\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\6.0.36\\microsoft.aspnetcore.app.runtime.win-x64.6.0.36.nupkg.sha512"
+    "C:\\Users\\caual\\.nuget\\packages\\system.drawing.common\\7.0.0\\system.drawing.common.7.0.0.nupkg.sha512"
   ],
   "logs": []
 }

@@ -12,6 +12,7 @@ import orderRoutes from './routes/orders';
 import ingredientRoutes from './routes/ingredients';
 import categoryRoutes from './routes/categories';
 import reportRoutes from './routes/reports';
+import modifierRoutes from './routes/modifiers';
 
 dotenv.config();
 
@@ -57,6 +58,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/ingredients', ingredientRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/modifiers', modifierRoutes);
 
 // Rota raiz
 app.get('/', (req, res) => {
@@ -70,6 +72,7 @@ app.get('/', (req, res) => {
       ingredients: '/api/ingredients',
       categories: '/api/categories',
       reports: '/api/reports',
+      modifiers: '/api/modifiers',
       health: '/api/health'
     }
   });

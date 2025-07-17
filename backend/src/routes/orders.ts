@@ -25,6 +25,11 @@ router.get('/', authenticateToken, async (req: AuthRequest, res) => {
               include: {
                 category: true
               }
+            },
+            modifiers: {
+              include: {
+                modifier: true
+              }
             }
           }
         }
@@ -57,6 +62,11 @@ router.get('/:id', authenticateToken, async (req: AuthRequest, res) => {
             product: {
               include: {
                 category: true
+              }
+            },
+            modifiers: {
+              include: {
+                modifier: true
               }
             }
           }
@@ -128,13 +138,43 @@ router.post('/', authenticateToken, async (req: AuthRequest, res) => {
         }
       }
 
-      const itemTotal = product.price * item.quantity;
+      let itemTotal = product.price * item.quantity;
+      
+      // Calcular preço dos modificadores
+      const modifiersData = [];
+      if (item.modifiers && item.modifiers.length > 0) {
+        for (const modifierItem of item.modifiers) {
+          const modifier = await prisma.modifier.findUnique({
+            where: { id: modifierItem.modifierId }
+          });
+
+          if (!modifier) {
+            return res.status(404).json({ error: `Modificador ${modifierItem.modifierId} não encontrado` });
+          }
+
+          if (!modifier.available) {
+            return res.status(400).json({ error: `Modificador ${modifier.name} não está disponível` });
+          }
+
+          const modifierTotal = modifier.price * (modifierItem.quantity || 1) * item.quantity;
+          itemTotal += modifierTotal;
+
+          modifiersData.push({
+            modifierId: modifier.id,
+            quantity: modifierItem.quantity || 1,
+            price: modifier.price
+          });
+        }
+      }
+
       total += itemTotal;
 
       orderItems.push({
         productId: item.productId,
         quantity: item.quantity,
-        price: product.price
+        price: product.price,
+        observations: item.observations || null,
+        modifiers: modifiersData
       });
     }
 
@@ -148,7 +188,15 @@ router.post('/', authenticateToken, async (req: AuthRequest, res) => {
         observations,
         tableNumber,
         orderItems: {
-          create: orderItems
+          create: orderItems.map(item => ({
+            productId: item.productId,
+            quantity: item.quantity,
+            price: item.price,
+            observations: item.observations,
+            modifiers: {
+              create: item.modifiers
+            }
+          }))
         }
       },
       include: {
@@ -160,6 +208,11 @@ router.post('/', authenticateToken, async (req: AuthRequest, res) => {
             product: {
               include: {
                 category: true
+              }
+            },
+            modifiers: {
+              include: {
+                modifier: true
               }
             }
           }

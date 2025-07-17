@@ -308,15 +308,16 @@ namespace RestauranteLauncher
             if (isSystemRunning)
             {
                 await StopSystem();
+                // Verificar status após parar
+                await Task.Delay(2000);
+                await CheckSystemStatus();
             }
             else
             {
                 await StartSystem();
+                // Não verificar status imediatamente após iniciar
+                // O WaitForFrontendToBeReady já gerencia o estado da UI
             }
-            
-            // Verificar status após ação
-            await Task.Delay(2000);
-            await CheckSystemStatus();
         }
 
         private async Task<bool> IsPortInUse(int port)
@@ -389,6 +390,9 @@ namespace RestauranteLauncher
         {
             try
             {
+                // Pausar o timer durante a inicialização para evitar conflitos de UI
+                statusTimer.Stop();
+                
                 statusIconLabel.Text = "⚡";
                 statusIconLabel.ForeColor = Color.Orange;
                 statusLabel.Text = "Iniciando sistema...";
@@ -399,6 +403,8 @@ namespace RestauranteLauncher
                 if (!CheckNodeJs())
                 {
                     MessageBox.Show("Node.js não encontrado. Por favor, instale o Node.js primeiro.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // Reativar o timer antes de sair
+                    statusTimer.Start();
                     return;
                 }
 
@@ -411,18 +417,28 @@ namespace RestauranteLauncher
 
                 // Iniciar frontend
                 StartFrontend();
-                await Task.Delay(5000);
-
-                // Abrir navegador
-                Process.Start(new ProcessStartInfo
+                
+                // Aguardar frontend estar disponível antes de abrir o browser
+                await WaitForFrontendToBeReady();
+                
+                // Abrir navegador apenas se o frontend estiver rodando
+                if (await IsFrontendRunning())
                 {
-                    FileName = "http://localhost:3000",
-                    UseShellExecute = true
-                });
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "http://localhost:3000",
+                        UseShellExecute = true
+                    });
+                }
+                
+                // Reativar o timer após a inicialização
+                statusTimer.Start();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao iniciar sistema: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Reativar o timer em caso de erro
+                statusTimer.Start();
             }
         }
 
@@ -430,6 +446,9 @@ namespace RestauranteLauncher
         {
             try
             {
+                // Pausar o timer durante a parada para evitar conflitos de UI
+                statusTimer.Stop();
+                
                 statusIconLabel.Text = "⏳";
                 statusIconLabel.ForeColor = Color.Orange;
                 statusLabel.Text = "Parando sistema...";
@@ -468,10 +487,15 @@ namespace RestauranteLauncher
                 }
 
                 await Task.Delay(2000);
+                
+                // Reativar o timer após a parada
+                statusTimer.Start();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao parar sistema: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Reativar o timer em caso de erro
+                statusTimer.Start();
             }
         }
 
@@ -584,6 +608,63 @@ namespace RestauranteLauncher
             catch (Exception ex)
             {
                 MessageBox.Show($"Erro ao iniciar frontend: {ex.Message}", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async Task WaitForFrontendToBeReady()
+        {
+            statusIconLabel.Text = "⏳";
+            statusIconLabel.ForeColor = Color.Orange;
+            statusLabel.Text = "Aguardando frontend inicializar...";
+            
+            int maxAttempts = 30; // 30 tentativas = 1 minuto
+            int attempts = 0;
+            
+            while (attempts < maxAttempts)
+            {
+                if (await IsFrontendRunning())
+                {
+                    // Sistema está rodando, atualizar UI para o estado final
+                    statusIconLabel.Text = "✅";
+                    statusIconLabel.ForeColor = Color.FromArgb(46, 204, 113);
+                    statusLabel.Text = "Sistema em execução";
+                    statusLabel.ForeColor = Color.FromArgb(46, 204, 113);
+                    controlButton.Text = "⏹️ PARAR SISTEMA";
+                    controlButton.BackColor = Color.FromArgb(231, 76, 60);
+                    controlButton.Enabled = true;
+                    isSystemRunning = true;
+                    return;
+                }
+                
+                await Task.Delay(2000); // Aguardar 2 segundos entre tentativas
+                attempts++;
+            }
+            
+            // Se chegou aqui, o frontend não inicializou a tempo
+            statusIconLabel.Text = "⚠️";
+            statusIconLabel.ForeColor = Color.Orange;
+            statusLabel.Text = "Frontend demorou para inicializar";
+            statusLabel.ForeColor = Color.Orange;
+            controlButton.Text = "▶️ INICIAR SISTEMA";
+            controlButton.BackColor = Color.FromArgb(46, 204, 113);
+            controlButton.Enabled = true;
+            isSystemRunning = false;
+        }
+
+        private async Task<bool> IsFrontendRunning()
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.Timeout = TimeSpan.FromSeconds(5);
+                    var response = await client.GetAsync("http://localhost:3000");
+                    return response.IsSuccessStatusCode;
+                }
+            }
+            catch
+            {
+                return false;
             }
         }
 

@@ -44,6 +44,7 @@ model Product {
   category          Category            @relation(fields: [categoryId], references: [id])
   orderItems        OrderItem[]
   productIngredients ProductIngredient[]
+  productModifiers  ProductModifier[]
 
   @@map("product")
 }
@@ -105,15 +106,60 @@ model Order {
   @@map("order")
 }
 
+model Modifier {
+  id          String            @id @default(cuid())
+  name        String
+  description String?           @db.Text
+  type        String            // 'ADD', 'REMOVE', 'REPLACE'
+  price       Float             @default(0)
+  available   Boolean           @default(true)
+  parentId    String?           // Para criar hierarquia de modificadores
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  parent      Modifier?         @relation("ModifierHierarchy", fields: [parentId], references: [id])
+  children    Modifier[]        @relation("ModifierHierarchy")
+  productModifiers ProductModifier[]
+  orderItemModifiers OrderItemModifier[]
+
+  @@map("modifier")
+}
+
+model ProductModifier {
+  id         String   @id @default(cuid())
+  productId  String
+  modifierId String
+  required   Boolean  @default(false)
+  maxQuantity Int?    // Quantidade máxima permitida (null = ilimitado)
+  product    Product  @relation(fields: [productId], references: [id])
+  modifier   Modifier @relation(fields: [modifierId], references: [id])
+
+  @@unique([productId, modifierId])
+  @@map("productmodifier")
+}
+
 model OrderItem {
   id        String   @id @default(cuid())
   orderId   String
   productId String
   quantity  Int
   price     Float
+  observations String? @db.Text
   createdAt DateTime @default(now())
   order     Order    @relation(fields: [orderId], references: [id])
   product   Product  @relation(fields: [productId], references: [id])
+  modifiers OrderItemModifier[]
 
   @@map("orderitem")
+}
+
+model OrderItemModifier {
+  id          String    @id @default(cuid())
+  orderItemId String
+  modifierId  String
+  quantity    Int       @default(1)
+  price       Float
+  orderItem   OrderItem @relation(fields: [orderItemId], references: [id])
+  modifier    Modifier  @relation(fields: [modifierId], references: [id])
+
+  @@map("orderitemmodifier")
 }

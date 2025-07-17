@@ -27,6 +27,7 @@ import {
   AccountCircle,
   Logout,
   Notifications,
+  Tune,
 } from '@mui/icons-material';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
@@ -43,6 +44,7 @@ const menuItems = [
   { text: 'Produtos', icon: <Inventory />, path: '/products', roles: ['ADMIN'] },
   { text: 'Categorias', icon: <Category />, path: '/categories', roles: ['ADMIN'] },
   { text: 'Ingredientes', icon: <Inventory />, path: '/ingredients', roles: ['ADMIN'] },
+  { text: 'Modificadores', icon: <Tune />, path: '/modifiers', roles: ['ADMIN', 'GERENTE'] },
   { text: 'Relatórios', icon: <Assessment />, path: '/reports', roles: ['ADMIN'] },
 ];
 

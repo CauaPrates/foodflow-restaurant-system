@@ -10,6 +10,7 @@ import Products from './pages/Products/Products';
 
 import Ingredients from './pages/Ingredients/Ingredients';
 import Categories from './pages/Categories/Categories';
+import Modifiers from './pages/Modifiers/Modifiers';
 import Reports from './pages/Reports/Reports';
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
           <Route path="/products" element={<Products />} />
           <Route path="/ingredients" element={<Ingredients />} />
         <Route path="/categories" element={<Categories />} />
+        <Route path="/modifiers" element={<Modifiers />} />
         <Route path="/reports" element={<Reports />} />
         <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>

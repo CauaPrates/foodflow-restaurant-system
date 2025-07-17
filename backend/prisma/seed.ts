@@ -34,28 +34,6 @@ async function main() {
 
   console.log('✅ Usuários criados:', { admin: admin.email, garcom: garcom.email });
 
-  // Criar mesas
-  const mesas = [
-    { number: 1, capacity: 2, status: 'AVAILABLE' },
-    { number: 2, capacity: 4, status: 'AVAILABLE' },
-    { number: 3, capacity: 6, status: 'AVAILABLE' },
-    { number: 4, capacity: 2, status: 'AVAILABLE' },
-    { number: 5, capacity: 4, status: 'AVAILABLE' },
-    { number: 6, capacity: 8, status: 'AVAILABLE' },
-    { number: 7, capacity: 2, status: 'AVAILABLE' },
-    { number: 8, capacity: 4, status: 'AVAILABLE' },
-  ];
-
-  for (const mesa of mesas) {
-    await prisma.table.upsert({
-      where: { number: mesa.number },
-      update: {},
-      create: mesa,
-    });
-  }
-
-  console.log('✅ Mesas criadas');
-
   // Criar categorias básicas
   const categorias = [
     { name: 'Pratos Principais', description: 'Pratos principais do cardápio' },
