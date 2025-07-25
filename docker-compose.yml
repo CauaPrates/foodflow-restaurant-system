@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # Banco de dados MySQL
+  mysql:
+    image: mysql:8.0
+    container_name: restaurante_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: restaurante_db
+      MYSQL_USER: restaurante_user
+      MYSQL_PASSWORD: restaurante_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - restaurante_network
+
+  # Backend Node.js
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: restaurante_backend
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=mysql://restaurante_user:restaurante_pass@mysql:3306/restaurante_db
+      - JWT_SECRET=seu_jwt_secret_muito_seguro_aqui_docker
+      - PORT=5000
+      - FRONTEND_URL=http://localhost:3000
+    ports:
+      - "5000:5000"
+    networks:
+      - restaurante_network
+    depends_on:
+      - mysql
+
+  # Frontend React
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: restaurante_frontend
+    restart: unless-stopped
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000
+    ports:
+      - "3000:3000"
+    networks:
+      - restaurante_network
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  restaurante_network:
+    driver: bridge
